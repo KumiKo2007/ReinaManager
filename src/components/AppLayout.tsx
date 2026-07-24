@@ -1,6 +1,7 @@
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import KeyboardArrowUpRoundedIcon from "@mui/icons-material/KeyboardArrowUpRounded";
 import { Avatar, Fab, Fade, Link } from "@mui/material";
+import Box from "@mui/material/Box";
 import AppBar from "@mui/material/AppBar";
 import Chip from "@mui/material/Chip";
 import IconButton from "@mui/material/IconButton";
@@ -15,6 +16,7 @@ import { useTranslation } from "react-i18next";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import AddModal from "@/components/AddModal";
 import { SearchBox } from "@/components/SearchBox";
+import { ThemeBackdrop } from "@/components/ThemeBackdrop";
 import { Toolbars } from "@/components/Toolbar";
 import {
 	saveScrollPosition,
@@ -324,8 +326,10 @@ export const Layout: React.FC = () => {
 	const isLibraries = location.pathname === "/libraries";
 
 	return (
-		<>
-			<AddModal />
+		<Box sx={{ position: "relative", minHeight: "100vh", isolation: "isolate" }}>
+			<ThemeBackdrop />
+			<Box sx={{ position: "relative", zIndex: 1 }}>
+				<AddModal />
 			<DashboardLayout
 				slots={{
 					header: Header,
@@ -348,8 +352,9 @@ export const Layout: React.FC = () => {
 					<Outlet />
 				)}
 				<BackToTopButton />
-			</DashboardLayout>
-		</>
+				</DashboardLayout>
+			</Box>
+		</Box>
 	);
 };
 export default Layout;

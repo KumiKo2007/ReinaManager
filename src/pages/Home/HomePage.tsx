@@ -246,7 +246,10 @@ export const Home: React.FC = () => {
 	const focusWeekTime = getWeekPlayTime(focusStatsQuery.data?.daily_stats);
 
 	return (
-		<Box className="box-border h-[calc(100dvh-64px)] max-h-[calc(100dvh-64px)] flex flex-col overflow-hidden bg-[var(--mui-palette-background-default)] p-4 min-[1200px]:p-5">
+		<Box
+			className="box-border h-[calc(100dvh-64px)] max-h-[calc(100dvh-64px)] flex flex-col overflow-hidden p-4 min-[1200px]:p-5"
+			sx={{ backgroundColor: "var(--reina-surface-bg, var(--mui-palette-background-default))" }}
+		>
 			<HomeStats
 				totalGames={visibleGames.length}
 				totalPlayTime={totalPlayTime}

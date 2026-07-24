@@ -65,6 +65,25 @@ export interface BgmAuth {
 	nickname?: Nullable<string>;
 }
 
+export type ThemeWallpaperFit = "cover" | "contain" | "fill" | "repeat";
+
+export type ThemeWallpaperPosition =
+	| "center"
+	| "top"
+	| "bottom"
+	| "left"
+	| "right";
+
+export interface ThemeAppearance {
+	enabled: boolean;
+	wallpaperPath?: Nullable<string>;
+	fit: ThemeWallpaperFit;
+	position: ThemeWallpaperPosition;
+	overlayOpacity: number;
+	surfaceOpacity: number;
+	blurPx: number;
+}
+
 // ==================== 元数据结构 ====================
 
 /**
@@ -338,6 +357,7 @@ export interface UpdateSettingsParams {
 	dbBackupPath?: Nullable<string>;
 	lePath?: Nullable<string>;
 	magpiePath?: Nullable<string>;
+	themeAppearance?: Nullable<ThemeAppearance>;
 }
 
 /**

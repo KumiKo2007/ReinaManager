@@ -3,7 +3,7 @@
  * @description 封装所有用户设置相关的后端调用
  */
 
-import type { BgmAuth, LogLevel, UpdateSettingsParams } from "@/types";
+import type { BgmAuth, LogLevel, ThemeAppearance, UpdateSettingsParams } from "@/types";
 import { BaseService } from "./base";
 
 export interface UserSettings {
@@ -13,6 +13,7 @@ export interface UserSettings {
 	db_backup_path?: string | null;
 	le_path?: string | null;
 	magpie_path?: string | null;
+	theme_appearance?: ThemeAppearance | null;
 }
 
 export interface ProxyConfig {

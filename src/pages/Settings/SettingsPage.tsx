@@ -1,3 +1,8 @@
+/**
+ * @file Settings page
+ * @description Organizes all settings sections for the app.
+ */
+
 import { Breadcrumbs, Link, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -9,6 +14,7 @@ import { Link as RouterLink } from "react-router-dom";
 import { PathSettingsModal } from "@/components/PathSettingsModal";
 import { useScrollRestore } from "@/hooks/common/useScrollRestore";
 import { AboutSection } from "./AboutSettings";
+import { ThemeAppearanceSettings } from "./AppearanceSettings";
 import {
 	BgmTokenSettings,
 	CollectionSyncSettings,
@@ -73,18 +79,17 @@ const SettingsPageHeader: React.FC<SettingsPageHeaderProps> = ({
 );
 
 /**
- * Settings 组件
- * 应用设置页面，组织各设置分区。
+ * Settings page
  */
 export const Settings: React.FC = () => {
 	const { t } = useTranslation();
 	useScrollRestore("/settings");
 	const [pathSettingsModalOpen, setPathSettingsModalOpen] = useState(false);
 	const [activeSectionId, setActiveSectionId] = useState("account");
-	const pageTitle = t("app.NAVIGATION.settings", "设置");
+	const pageTitle = t("app.NAVIGATION.settings", "Settings");
 	const breadcrumbs = useMemo(
 		() => [
-			{ title: t("app.NAVIGATION.home", "主页"), path: "/" },
+			{ title: t("app.NAVIGATION.home", "Home"), path: "/" },
 			{ title: pageTitle, path: "/settings" },
 		],
 		[t, pageTitle],
@@ -94,10 +99,10 @@ export const Settings: React.FC = () => {
 		() => [
 			{
 				id: "account",
-				label: t("pages.Settings.sections.account", "账号与同步"),
+				label: t("pages.Settings.sections.account", "Account & Sync"),
 				description: t(
 					"pages.Settings.sections.accountDescription",
-					"管理数据源账号令牌和收藏同步行为。",
+					"Manage data source tokens and sync behavior.",
 				),
 				content: (
 					<>
@@ -111,10 +116,10 @@ export const Settings: React.FC = () => {
 			},
 			{
 				id: "data-source",
-				label: t("pages.Settings.sections.dataSource", "数据源"),
+				label: t("pages.Settings.sections.dataSource", "Data Sources"),
 				description: t(
 					"pages.Settings.sections.dataSourceDescription",
-					"配置搜索源、VNDB 数据处理和批量数据维护。",
+					"Configure search sources, VNDB data handling, and bulk maintenance.",
 				),
 				content: (
 					<>
@@ -127,11 +132,20 @@ export const Settings: React.FC = () => {
 				),
 			},
 			{
+				id: "appearance",
+				label: t("pages.Settings.sections.appearance", "主题外观"),
+				description: t(
+					"pages.Settings.sections.appearanceDescription",
+					"自定义壁纸、遮罩和界面透明度。",
+				),
+				content: <ThemeAppearanceSettings />,
+			},
+			{
 				id: "display",
-				label: t("pages.Settings.sections.display", "显示与交互"),
+				label: t("pages.Settings.sections.display", "Display & Interaction"),
 				description: t(
 					"pages.Settings.sections.displayDescription",
-					"调整语言、内容过滤和游戏卡片交互方式。",
+					"Adjust language, content filtering, and card interaction behavior.",
 				),
 				content: (
 					<Box className="space-y-5">
@@ -147,10 +161,10 @@ export const Settings: React.FC = () => {
 			},
 			{
 				id: "system",
-				label: t("pages.Settings.sections.system", "系统"),
+				label: t("pages.Settings.sections.system", "System"),
 				description: t(
 					"pages.Settings.sections.systemDescription",
-					"管理启动、日志、关闭行为和计时模式。",
+					"Manage startup, logs, close behavior, and playtime tracking.",
 				),
 				content: (
 					<Box className="space-y-5">
@@ -174,25 +188,23 @@ export const Settings: React.FC = () => {
 			},
 			{
 				id: "storage",
-				label: t("pages.Settings.sections.storage", "路径与备份"),
+				label: t("pages.Settings.sections.storage", "Paths & Backup"),
 				description: t(
 					"pages.Settings.sections.storageDescription",
-					"配置本地路径，执行数据备份和恢复。",
+					"Configure local paths and run data backup or restore tools.",
 				),
 				content: (
 					<>
-						<SettingsGroup
-							title={t("pages.Settings.pathSettings.title", "路径设置")}
-						>
+						<SettingsGroup title={t("pages.Settings.pathSettings.title", "Path settings")}>
 							<SettingsItem
 								stacked
 								title={t(
 									"pages.Settings.pathSettings.openModal",
-									"打开路径设置",
+									"Open path settings",
 								)}
 								description={t(
 									"pages.Settings.pathSettings.note",
-									"配置游戏存档备份、数据库备份、LE转区软件、Magpie软件等路径",
+									"Configure game save folders, database backups, LE, and Magpie paths.",
 								)}
 							>
 								<Button
@@ -200,7 +212,7 @@ export const Settings: React.FC = () => {
 									onClick={() => setPathSettingsModalOpen(true)}
 									className="px-4 py-2"
 								>
-									{t("pages.Settings.pathSettings.openModal", "打开路径设置")}
+									{t("pages.Settings.pathSettings.openModal", "Open path settings")}
 								</Button>
 							</SettingsItem>
 						</SettingsGroup>
@@ -211,10 +223,10 @@ export const Settings: React.FC = () => {
 			},
 			{
 				id: "about",
-				label: t("pages.Settings.sections.about", "关于"),
+				label: t("pages.Settings.sections.about", "About"),
 				description: t(
 					"pages.Settings.sections.aboutDescription",
-					"查看版本、更新状态、文档和反馈入口。",
+					"View version info, update status, docs, and feedback links.",
 				),
 				content: <AboutSection />,
 			},
@@ -253,9 +265,10 @@ export const Settings: React.FC = () => {
 	}, [sections]);
 
 	const handleSectionClick = (sectionId: string) => {
-		document
-			.getElementById(sectionId)
-			?.scrollIntoView({ behavior: "smooth", block: "start" });
+		document.getElementById(sectionId)?.scrollIntoView({
+			behavior: "smooth",
+			block: "start",
+		});
 	};
 
 	return (
@@ -269,8 +282,12 @@ export const Settings: React.FC = () => {
 			<Box className="w-full">
 				<Box className="grid w-full grid-cols-1 lg:grid-cols-[14rem_minmax(0,1fr)] xl:grid-cols-[15rem_minmax(0,1fr)]">
 					<nav
-						className="sticky top-4 z-10 h-fit overflow-x-auto border-0 border-b border-solid border-[var(--mui-palette-divider)] bg-[var(--mui-palette-background-default)] py-3 lg:border-b-0 lg:border-r lg:py-4 lg:pr-4"
-						aria-label={t("pages.Settings.navigation", "设置分类导航")}
+						className="sticky top-4 z-10 h-fit overflow-x-auto border-0 border-b border-solid border-[var(--mui-palette-divider)] py-3 lg:border-b-0 lg:border-r lg:py-4 lg:pr-4"
+						style={{
+							backgroundColor:
+								"var(--reina-surface-bg, var(--mui-palette-background-default))",
+						}}
+						aria-label={t("pages.Settings.navigation", "Settings navigation")}
 					>
 						<Box className="flex min-w-max gap-2 lg:min-w-0 lg:flex-col lg:gap-1">
 							{sections.map((section) => {
@@ -302,22 +319,20 @@ export const Settings: React.FC = () => {
 								className="scroll-mt-24 lg:scroll-mt-8"
 							>
 								<Box className="mb-3">
-									<Typography
-										variant="h6"
-										component="h2"
-										className="font-semibold"
-									>
+									<Typography variant="h6" component="h2" className="font-semibold">
 										{section.label}
 									</Typography>
-									<Typography
-										variant="body2"
-										color="text.secondary"
-										className="mt-1"
-									>
+									<Typography variant="body2" color="text.secondary" className="mt-1">
 										{section.description}
 									</Typography>
 								</Box>
-								<Box className="w-full rounded-xl border border-solid border-[var(--mui-palette-divider)] bg-[var(--mui-palette-background-paper)] px-5 py-5">
+								<Box
+									className="w-full rounded-xl border border-solid border-[var(--mui-palette-divider)] px-5 py-5"
+									sx={{
+										backgroundColor:
+											"var(--reina-surface-bg, var(--mui-palette-background-paper))",
+									}}
+								>
 									{section.content}
 								</Box>
 							</section>
@@ -326,7 +341,6 @@ export const Settings: React.FC = () => {
 				</Box>
 			</Box>
 
-			{/* 路径设置弹窗 */}
 			<PathSettingsModal
 				open={pathSettingsModalOpen}
 				onClose={() => setPathSettingsModalOpen(false)}
