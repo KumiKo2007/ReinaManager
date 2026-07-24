@@ -34,6 +34,7 @@ impl SettingsRepository {
                 db_backup_path: Set(None),
                 le_path: Set(None),
                 magpie_path: Set(None),
+                theme_appearance: Set(None),
             };
 
             user.insert(db).await?;
@@ -90,6 +91,10 @@ impl SettingsRepository {
 
         if let Some(path) = data.magpie_path {
             active.magpie_path = Set(path);
+        }
+
+        if let Some(theme_appearance) = data.theme_appearance {
+            active.theme_appearance = Set(theme_appearance);
         }
 
         active.update(db).await?;

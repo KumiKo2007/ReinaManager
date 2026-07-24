@@ -17,6 +17,18 @@ pub struct BgmAuth {
     pub nickname: Option<String>,
 }
 
+#[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize, FromJsonQueryResult)]
+#[serde(default, rename_all = "camelCase")]
+pub struct ThemeAppearance {
+    pub enabled: bool,
+    pub wallpaper_path: Option<String>,
+    pub fit: String,
+    pub position: String,
+    pub overlay_opacity: i32,
+    pub surface_opacity: i32,
+    pub blur_px: i32,
+}
+
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq, Serialize, Deserialize)]
 #[sea_orm(table_name = "user")]
 pub struct Model {
@@ -34,6 +46,8 @@ pub struct Model {
     pub le_path: Option<String>,
     #[sea_orm(column_type = "Text", nullable)]
     pub magpie_path: Option<String>,
+    #[sea_orm(column_type = "Text", nullable)]
+    pub theme_appearance: Option<ThemeAppearance>,
 }
 
 impl Model {

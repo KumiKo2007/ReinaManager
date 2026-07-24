@@ -4,7 +4,7 @@
 //! 重构后采用单表架构，元数据以 JSON 列形式嵌入 games 表。
 
 use crate::entity::custom_data::CustomData;
-use crate::entity::user::BgmAuth;
+use crate::entity::user::{BgmAuth, ThemeAppearance};
 use serde::{Deserialize, Deserializer, Serialize};
 use serde_json::Value;
 use std::path::PathBuf;
@@ -94,6 +94,33 @@ fn clean_bgm_auth(mut auth: BgmAuth) -> Option<BgmAuth> {
     } else {
         Some(auth)
     }
+}
+
+fn clean_theme_choice(value: String, allowed: &[&str], fallback: &str) -> String {
+    let normalized = value.trim().to_ascii_lowercase();
+    if allowed.iter().any(|candidate| *candidate == normalized) {
+        normalized
+    } else {
+        fallback.to_string()
+    }
+}
+
+fn clean_theme_appearance(mut appearance: ThemeAppearance) -> Option<ThemeAppearance> {
+    appearance.wallpaper_path = clean_option_local_path(appearance.wallpaper_path);
+    appearance.fit = clean_theme_choice(
+        appearance.fit,
+        &["cover", "contain", "fill", "repeat"],
+        "cover",
+    );
+    appearance.position = clean_theme_choice(
+        appearance.position,
+        &["center", "top", "bottom", "left", "right"],
+        "center",
+    );
+    appearance.overlay_opacity = appearance.overlay_opacity.clamp(0, 100);
+    appearance.surface_opacity = appearance.surface_opacity.clamp(0, 100);
+    appearance.blur_px = appearance.blur_px.clamp(0, 40);
+    Some(appearance)
 }
 
 /// 清洗 InsertGameData 中的空字符串
@@ -209,6 +236,8 @@ pub struct UpdateSettingsData {
     pub le_path: Option<Option<String>>,
     #[serde(default, deserialize_with = "double_option")]
     pub magpie_path: Option<Option<String>>,
+    #[serde(default, deserialize_with = "double_option")]
+    pub theme_appearance: Option<Option<ThemeAppearance>>,
 }
 
 /// 清洗 UpdateSettingsData 中的空字符串
@@ -221,6 +250,9 @@ impl UpdateSettingsData {
         self.db_backup_path = clean_double_option_string(self.db_backup_path);
         self.le_path = clean_double_option_string(self.le_path);
         self.magpie_path = clean_double_option_string(self.magpie_path);
+        self.theme_appearance = self
+            .theme_appearance
+            .map(|inner| inner.and_then(clean_theme_appearance));
         self
     }
 }

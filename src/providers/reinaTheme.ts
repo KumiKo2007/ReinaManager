@@ -1,5 +1,7 @@
 import { alpha, createTheme } from "@mui/material/styles";
 
+const SURFACE_BACKGROUND = "var(--reina-surface-bg, var(--mui-palette-background-paper))";
+
 export const reinaTheme = createTheme({
 	cssVariables: {
 		colorSchemeSelector: "data-toolpad-color-scheme",
@@ -46,7 +48,7 @@ export const reinaTheme = createTheme({
 			styleOverrides: {
 				root: {
 					backgroundImage: "none",
-					backgroundColor: "var(--mui-palette-background-paper)",
+					backgroundColor: SURFACE_BACKGROUND,
 				},
 			},
 		},
@@ -54,7 +56,7 @@ export const reinaTheme = createTheme({
 			styleOverrides: {
 				root: {
 					borderRadius: 20,
-					backgroundColor: "var(--mui-palette-background-paper)",
+					backgroundColor: SURFACE_BACKGROUND,
 					backgroundImage: "none",
 				},
 			},
@@ -134,7 +136,7 @@ export const reinaTheme = createTheme({
 					},
 					borderRadius: 24,
 					backgroundImage: "none",
-					backgroundColor: "var(--mui-palette-background-paper)",
+					backgroundColor: SURFACE_BACKGROUND,
 					border: "1px solid var(--mui-palette-divider)",
 					boxShadow: `0 24px 64px ${alpha("#587083", 0.16)}`,
 					...theme.applyStyles("dark", {
@@ -171,7 +173,7 @@ export const reinaTheme = createTheme({
 			},
 			styleOverrides: {
 				root: {
-					backgroundColor: "var(--mui-palette-background-paper)",
+					backgroundColor: SURFACE_BACKGROUND,
 					backgroundImage: "none",
 					borderBottom: "1px solid var(--mui-palette-divider)",
 					color: "var(--mui-palette-text-primary)",
@@ -216,7 +218,7 @@ export const reinaTheme = createTheme({
 			styleOverrides: {
 				root: {
 					backgroundImage: "none",
-					backgroundColor: "var(--mui-palette-background-paper)",
+					backgroundColor: SURFACE_BACKGROUND,
 					boxShadow: "none",
 					border: "1px solid var(--mui-palette-divider)",
 					"&:before": {
